@@ -1,4 +1,5 @@
 These scripts create LXD images for OpenWRT.
+Naturally, you can run them inside an LXD container.  I use an Ubuntu 16.04 container.
 
 Run as follows:
 sudo sh build.sh <version>
