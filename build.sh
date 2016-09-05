@@ -1,5 +1,5 @@
 #!/bin/sh
-# vim: set ts=2:
+# Copyright (C) 2016 Alex Athanasopoulos
 
 # Exit on error and treat unset variables as an error.
 set -eu
