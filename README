@@ -14,17 +14,17 @@ The resulting images are generated in ./target/<version>/image
 The container should be privileged:
 lxc launch openwrt -c security.privileged=true <name>
 
-snapshot (designated_driver) and chaos_calmer boot partially.  They can become usable after running the script /root/mknodes.sh.  You can exec mknodes.sh using lxd exec, either directly, or through an interactive shell:
+snapshot (designated_driver) and chaos_calmer boot partially.  They can become usable after running the script /root/init.sh.  You can exec init.sh using lxd exec, either directly, or through an interactive shell:
 
-lxc exec <container> /root/mknodes.sh
+lxc exec <container> /root/init.sh
 
 or:
 
 lxc exec <container> ash
-./mknodes.sh
+sh init.sh
 
 
-mknodes.sh uses mknod to create a few missing devices in /dev.  The container should be privileged in order to be able to run mknod.
+init.sh uses mknod to create a few missing devices in /dev.  The container should be privileged in order to be able to run mknod.
 
 I haven't been able to make this script run automatically from inside the container when the container starts.
 
@@ -34,5 +34,5 @@ If you try to run "halt" or "reboot" before completing the boot process, it won'
 
 This build script modifies the network configuration so that the container gets its ip address from dhcp.  It also removes the wan interface.
 
-barrier_breaker does not boot properly.  mknodes.sh does not fix it.
+barrier_breaker does not boot properly.  init.sh does not fix it.  This script does not modify rootfs in this case.  It just adds metadata.
 

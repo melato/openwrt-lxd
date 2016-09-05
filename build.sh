@@ -1,5 +1,8 @@
 #!/bin/sh
+# vim: set ts=2:
 
+# Exit on error and treat unset variables as an error.
+set -eu
 
 VERSION="$1"
 
@@ -54,16 +57,16 @@ update_rootfs()
   mkdir -p $BUILD_DIR/rootfs
   if [ -s "$CACHE_DIR/$ROOTFS" ]
   then
-		tar xf $CACHE_DIR/$ROOTFS -C $BUILD_DIR/rootfs
-		if [ -f $CONFIG_DIR/network ]
+		if [ -x $CONFIG_DIR/update-rootfs.sh ]
 		then
-			cp $CONFIG_DIR/network $BUILD_DIR/rootfs/etc/config/network
+			# modify rootfs
+			tar xf $CACHE_DIR/$ROOTFS -C $BUILD_DIR/rootfs
+			$CONFIG_DIR/update-rootfs.sh $CONFIG_DIR $BUILD_DIR/rootfs
+			tar cfz $IMAGE_DIR/rootfs.tar.gz -C $BUILD_DIR/rootfs ./
+		else
+			# copy original rootfs
+			cp $CACHE_DIR/$ROOTFS $IMAGE_DIR/rootfs.tar.gz
 		fi
-		if [ -f $CONFIG_DIR/mknodes.sh ]
-		then
-			cp $CONFIG_DIR/mknodes.sh $BUILD_DIR/rootfs/root/
-		fi
-		tar cfz $IMAGE_DIR/rootfs.tar.gz -C $BUILD_DIR/rootfs ./
   fi
 }
 
