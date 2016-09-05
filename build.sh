@@ -54,12 +54,12 @@ update_rootfs()
   rm -rf $BUILD_DIR/rootfs
   rm -rf $IMAGE_DIR
   mkdir -p $IMAGE_DIR
-  mkdir -p $BUILD_DIR/rootfs
   if [ -s "$CACHE_DIR/$ROOTFS" ]
   then
 		if [ -x $CONFIG_DIR/update-rootfs.sh ]
 		then
 			# modify rootfs
+			mkdir -p $BUILD_DIR/rootfs
 			tar xf $CACHE_DIR/$ROOTFS -C $BUILD_DIR/rootfs
 			$CONFIG_DIR/update-rootfs.sh $CONFIG_DIR $BUILD_DIR/rootfs
 			tar cfz $IMAGE_DIR/rootfs.tar.gz -C $BUILD_DIR/rootfs ./

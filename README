@@ -1,20 +1,23 @@
 These scripts create LXD images for OpenWRT.
-Naturally, you can run them inside an LXD container.  I use an Ubuntu 16.04 container.
+Naturally, you can run them inside an LXD container.  I use a privileged Ubuntu 16.04 container, so I can run things like mknod (it is not needed yet).
 
 Run as follows:
-sudo sh build.sh <version>
+sudo ./build.sh <version>
 
 There are three versions:  snapshot, chaos_calmer, barrier_breaker.
+Only chaos_calmer and snapshot are usable, so far.
 
 Ths script downloads rootfs tar.gz from openwrt.org, modifies it slightly, and generates LXD metadata.
 
-rootfs files are downloaded in ./cache, if they are not already there.
+rootfs tarballs are downloaded in ./cache, if they are not already there.
+If you want to get fresh ones, delete the old ones first.
+
 The resulting images are generated in ./target/<version>/image
 
-The container should be privileged:
+The openwrt container should be privileged:
 lxc launch openwrt -c security.privileged=true <name>
 
-snapshot (designated_driver) and chaos_calmer boot partially.  They can become usable after running the script /root/init.sh.  You can exec init.sh using lxd exec, either directly, or through an interactive shell:
+snapshot (designated_driver) and chaos_calmer boot partially.  They become usable after running the script /root/init.sh.  You can exec init.sh using lxd exec, either directly, or through an interactive shell:
 
 lxc exec <container> /root/init.sh
 
@@ -26,13 +29,15 @@ sh init.sh
 
 init.sh uses mknod to create a few missing devices in /dev.  The container should be privileged in order to be able to run mknod.
 
-I haven't been able to make this script run automatically from inside the container when the container starts.
+I haven't been able to make this script run automatically from inside the container.
 
 To stop the container, run "halt" in it.  It does not seem to stop from the LXD tools.
 
-If you try to run "halt" or "reboot" before completing the boot process, it won't work.  In order to get rid of the container, delete its rootfs from the host (/var/lib/lxd/containers/<container>/rootfs).  You will then be able to delete the container after a host reboot.
+If you try to run "halt" or "reboot" before completing the boot process, it won't work.  In order to get rid of such an unusable container, delete its rootfs from the host (/var/lib/lxd/containers/<container>/rootfs).  You will then be able to delete the container after a host reboot.
 
-This build script modifies the network configuration so that the container gets its ip address from dhcp.  It also removes the wan interface.
+This build script modifies the network configuration so that the container gets its ip address from dhcp.  It also removes the wan interface.  You can experiment with other network configurations.
+
+If you use the original network configuration, which includes a DHCP server, other containers may start getting their ip addresses from the OpenWRT container (which may be useful, if you disable the LXD DHCP server).
 
 barrier_breaker does not boot properly.  init.sh does not fix it.  This script does not modify rootfs in this case.  It just adds metadata.
 
