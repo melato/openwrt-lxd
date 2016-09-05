@@ -29,7 +29,7 @@ sh init.sh
 
 init.sh uses mknod to create a few missing devices in /dev.  The container should be privileged in order to be able to run mknod.
 
-I haven't been able to make this script run automatically from inside the container.
+I haven't been able to make init.sh run automatically from inside the container.
 
 To stop the container, run "halt" in it.  It does not seem to stop from the LXD tools.
 
