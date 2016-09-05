@@ -1,0 +1,2 @@
+readonly ROOTFS=openwrt-x86-64-generic-rootfs.tar.gz
+readonly DOWNLOAD_URL=http://downloads.openwrt.org/snapshots/trunk/x86/64

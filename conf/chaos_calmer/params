@@ -1,0 +1,2 @@
+readonly ROOTFS=openwrt-15.05.1-x86-64-rootfs.tar.gz
+readonly DOWNLOAD_URL=http://downloads.openwrt.org/chaos_calmer/15.05.1/x86/64

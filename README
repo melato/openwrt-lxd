@@ -1,0 +1,37 @@
+These scripts create LXD images for OpenWRT.
+
+Run as follows:
+sudo sh build.sh <version>
+
+There are three versions:  snapshot, chaos_calmer, barrier_breaker.
+
+Ths script downloads rootfs tar.gz from openwrt.org, modifies it slightly, and generates LXD metadata.
+
+rootfs files are downloaded in ./cache, if they are not already there.
+The resulting images are generated in ./target/<version>/image
+
+The container should be privileged:
+lxc launch openwrt -c security.privileged=true <name>
+
+snapshot (designated_driver) and chaos_calmer boot partially.  They can become usable after running the script /root/mknodes.sh.  You can exec mknodes.sh using lxd exec, either directly, or through an interactive shell:
+
+lxc exec <container> /root/mknodes.sh
+
+or:
+
+lxc exec <container> ash
+./mknodes.sh
+
+
+mknodes.sh uses mknod to create a few missing devices in /dev.  The container should be privileged in order to be able to run mknod.
+
+I haven't been able to make this script run automatically from inside the container when the container starts.
+
+To stop the container, run "halt" in it.  It does not seem to stop from the LXD tools.
+
+If you try to run "halt" or "reboot" before completing the boot process, it won't work.  In order to get rid of the container, delete its rootfs from the host (/var/lib/lxd/containers/<container>/rootfs).  You will then be able to delete the container after a host reboot.
+
+This build script modifies the network configuration so that the container gets its ip address from dhcp.  It also removes the wan interface.
+
+barrier_breaker does not boot properly.  mknodes.sh does not fix it.
+
