@@ -39,5 +39,14 @@ This build script modifies the network configuration so that the container gets 
 
 If you use the original network configuration, which includes a DHCP server, other containers may start getting their ip addresses from the OpenWRT container (which may be useful, if you disable the LXD DHCP server).
 
+The resulting container seems functional.
+You can access the Luci Web Interface.
+If you try to login to it with ssh, you get an error:
+
+  PTY allocation request failed on channel 0
+  shell request failed on channel 0
+
+But you can use scp, rsync, and run non-interactive commands with ssh.
+
 barrier_breaker does not boot properly.  init.sh does not fix it.  This script does not modify rootfs in this case.  It just adds metadata.
 
