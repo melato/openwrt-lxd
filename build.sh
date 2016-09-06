@@ -4,9 +4,7 @@
 # Exit on error and treat unset variables as an error.
 set -eu
 
-VERSION="$1"
-
-if [ -z "$VERSION" ]
+if [ $# = 0 ]
 then
 	echo "usage: sudo sh $0 <version>"
 	echo "available versions:"
@@ -14,6 +12,8 @@ then
 	ls -1 ./conf
 	exit 1
 fi
+
+VERSION="$1"
 
 if [ `id -u` != 0 ]
 then
