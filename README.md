@@ -1,8 +1,3 @@
----
-layout: page
-title: README
----
-
 These scripts create LXD images for OpenWRT.
 Naturally, you can run them inside an LXD container.  I use a privileged Ubuntu 16.04 container, so I can run things like mknod (it is not needed yet).
 
