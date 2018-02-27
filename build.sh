@@ -9,7 +9,7 @@ then
 	echo "usage: sudo sh $0 <version>"
 	echo "available versions:"
 	echo
-	ls -1 ./conf
+	ls -1 ./conf/*/params | sed 's-./conf/--' | sed 's-/.*--'
 	exit 1
 fi
 
