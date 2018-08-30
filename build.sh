@@ -15,12 +15,6 @@ fi
 
 VERSION="$1"
 
-if [ `id -u` != 0 ]
-then
-	echo need to run as root
-	exit 1
-fi
-
 readonly CONFIG_DIR=./conf/$VERSION
 readonly CACHE_DIR=./cache/$VERSION
 readonly BUILD_DIR=./target/$VERSION
