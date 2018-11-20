@@ -1,5 +1,11 @@
 These scripts create LXD images for OpenWRT.
-Naturally, you can run them inside an LXD container.  I use a privileged Ubuntu 16.04 container, so I can run things like mknod (it is not needed yet).
+The resulting image has a couple of problems:
+- In order to complete booting, you need to run a script after starting the container.
+- interactive ssh to the container does not work.  But non-interactive ssh does.
+
+I hope someone who knows OpenWRT better than I do can fix this.
+
+Naturally, you can run this script inside an LXD container.  I use a privileged Ubuntu 18.04 container, so I can run things like mknod (it is not needed yet).
 
 Run as follows:
 
