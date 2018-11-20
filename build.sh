@@ -22,7 +22,7 @@ then
 fi
 
 readonly CONFIG_DIR=./conf/$VERSION
-readonly CACHE_DIR=./cache/$VERSION
+readonly CACHE_DIR=./cache
 readonly BUILD_DIR=./target/$VERSION
 readonly IMAGE_DIR=${BUILD_DIR}/image
 
