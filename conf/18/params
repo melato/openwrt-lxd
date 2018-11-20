@@ -1,0 +1,2 @@
+readonly ROOTFS=openwrt-18.06.1-x86-64-generic-rootfs.tar.gz
+readonly DOWNLOAD_URL=https://downloads.openwrt.org/releases/18.06.1/targets/x86/64/
