@@ -1,3 +1,7 @@
+Note:  This is incomplete.  It is superceded by https://github.com/mikma/lxd-openwrt
+
+---------------------------------------------
+
 These scripts create LXD images for OpenWRT.
 The resulting image has a couple of problems:
 - In order to complete booting, you need to run a script after starting the container.
