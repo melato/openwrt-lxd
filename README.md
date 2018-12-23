@@ -1,15 +1,16 @@
-Note:  This is incomplete.  It is superceded by https://github.com/mikma/lxd-openwrt
-
----------------------------------------------
-
 These scripts create LXD images for OpenWRT.
-The resulting image has a couple of problems:
-- In order to complete booting, you need to run a script after starting the container.
+They download generic-rootfs.tar.gz from openwrt.org, modify it slightly, and add LXD metadata.
+
+The resulting images have a couple of problems:
+- In order to complete booting, you need to run a script after starting the container, which creates missing devices in /dev
+- The image should be launched in privileged mode, otherwise it can't create the missing devices.
 - interactive ssh to the container does not work.  But non-interactive ssh does.
 
-I hope someone who knows OpenWRT better than I do can fix this.
+For a more complete image that does not have these problems, see https://github.com/mikma/lxd-openwrt
 
-Naturally, you can run this script inside an LXD container.  I use a privileged Ubuntu 18.04 container, so I can run things like mknod (it is not needed yet).
+This may still be useful for platforms other than x86_64 or for quick testing.  
+
+Naturally, you can (and should) run this script inside an LXD container.
 
 Run as follows:
 
@@ -17,21 +18,21 @@ Run as follows:
 
 Run without arguments to find out the available versions:
 
-	sudo ./build.sh
+	./build.sh
 
 barrier_breaker is not usable.
 
-The dhcp versions modify the network configuration so that the container gets its ip address from dhcp.  They also remove the wan interface.  You can experiment with other network configurations.
+The dhcp versions modify the network configuration so that the container gets its ip address from dhcp.  They also remove the wan interface.
 
 If you use the original network configuration, which includes a DHCP server, other containers may start getting their ip addresses from the OpenWRT container (which may be useful, if you disable the LXD DHCP server).
-
-
-Ths script downloads rootfs tar.gz from openwrt.org, modifies it slightly, and generates LXD metadata.
 
 rootfs tarballs are downloaded in ./cache, if they are not already there.
 If you want to get fresh ones, delete the old ones first.
 
-The resulting images are generated in ./target/{version}/image
+The resulting images are generated in ./target/{version}/image, which should be copied to the host.
+There are also a couple of generated scripts:
+import.sh imports the image
+launch.sh <name> launches a container from the image
 
 The openwrt container should be privileged:
 
@@ -53,7 +54,7 @@ I haven't been able to make init.sh run automatically from inside the container.
 
 To stop the container, run "halt" in it.  It does not seem to stop from the LXD tools.
 
-If you try to run "halt" or "reboot" before completing the boot process, it won't work.  In order to get rid of such an unusable container, delete its rootfs from the host (/var/lib/lxd/containers/{container}/rootfs).  You will then be able to delete the container after a host reboot.
+If you try to run "halt" or "reboot" before completing the boot process, it won't work.  In order to get rid of such an unusable container, delete its rootfs from the host (/var/lib/lxd/containers/{container}/rootfs in pre-snap LXD).  You will then be able to delete the container after a host reboot.
 
 The resulting container seems functional.
 You can access the Luci Web Interface.
