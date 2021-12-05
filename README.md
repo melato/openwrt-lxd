@@ -1,3 +1,9 @@
+# Update
+	This is obsolete, because:
+	1. LXD now provides openwrt images.
+	2. LXC distrobuilder can be used to create openwrt images.
+	See [distrobuilder](https://github.com/lxc/distrobuilder) [lxc-ci](https://github.com/lxc/lxc-ci)
+
 These scripts create LXD images for OpenWRT.
 They download generic-rootfs.tar.gz from openwrt.org, modify it slightly, and add LXD metadata.
 
